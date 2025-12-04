@@ -1,0 +1,26 @@
+# .gitignore im Projekt-Root MYAII2025b
+
+# Node & Logs
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Expo / React Native
+**/.expo/
+**/.expo-shared/
+**/.metro-cache/
+**/dist/
+**/build/
+
+# React Native native Projekte (werden bei Bedarf neu generiert)
+**/android/
+**/ios/
+
+# VS Code
+.vscode/
+
+# Env-Dateien
+.env
+.env.*
