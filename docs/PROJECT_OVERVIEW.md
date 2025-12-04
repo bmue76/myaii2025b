@@ -51,3 +51,25 @@ Backend- und Infrastruktur-Themen (z. B. eigene API, Auth, Storage) werden in sp
 - Fokus von MYAII2025b: **Avatar-first** – erst der Coach, dann weitere Features.
 - Keine WebView-Einbettung mehr für den Avatar; stattdessen direkte Integration der Streaming-API.
 - Dieses Dokument dient als Einstiegspunkt in das Projekt und wird bei neuen Teilprojekten laufend ergänzt.
+
+## 1.2 – Splash, Login & Personal Greeting – App-Shell
+
+- **Status**: abgeschlossen (04.12.2025)
+- **Ziel**: Erste App-Shell für MYAII2025b mit SplashScreen, Login-/Registrierungs-Screen und persönlichem Home-Screen inkl. Begrüssung und Avatar-Placeholder.
+- **Kern-Funktionalität**:
+  - Splash entscheidet anhand von lokalem Profil (`isOnboarded`), ob `/login` oder `/home` geladen wird.
+  - Login erfasst Name & Handy-Nummer, speichert das Profil lokal via AsyncStorage und markiert den User als „onboarded“.
+  - Home-Screen lädt das Profil, zeigt eine personalisierte Begrüssung (inkl. zufälligem Motivationsspruch) und enthält einen UI-Placeholder für den späteren AI-Avatar.
+  - Top-Bar und Bottom-Navigation als visuelle App-Rahmen (Tabs aktuell UI-only).
+- **Wichtige Dateien**:
+  - `mobile/App.tsx` (Expo Router Entry)
+  - `mobile/app/index.tsx` (SplashScreen)
+  - `mobile/app/login.tsx` (Login/Onboarding)
+  - `mobile/app/home.tsx` (Personal Home + Avatar-Placeholder)
+  - `mobile/src/services/userStorage.ts` (Userprofil-Storage, AsyncStorage)
+  - `mobile/src/utils/greetings.ts` (Random-Begrüssungen)
+- **Offene Punkte / Folgeprojekte**:
+  - Echte Auth-/Backend-Anbindung für SMS-/E-Mail-Verifizierung.
+  - Live-Avatar-Integration via HeyGen + LiveKit.
+  - Funktionale Tabs & zusätzliche Screens (Themen, Tagebuch, Freunde).
+
