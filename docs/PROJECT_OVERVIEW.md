@@ -73,3 +73,20 @@ Backend- und Infrastruktur-Themen (z. B. eigene API, Auth, Storage) werden in sp
   - Live-Avatar-Integration via HeyGen + LiveKit.
   - Funktionale Tabs & zusätzliche Screens (Themen, Tagebuch, Freunde).
 
+---
+
+## 2. Snippet für `docs/PROJECT_OVERVIEW.md`
+
+Füge z. B. unter „Teilprojekte“ folgenden Eintrag ein:
+
+```md
+### Teilprojekt 1.3 – Tabs & Screens: Avatar, Themen, Tagebuch & Freunde
+
+- Custom-Tab-Bar mit linker/rechter Blockstruktur und zentraler Chat-Bubble.
+- Einheitlicher Header-Stil für Avatar/Themen/Tagebuch (MYAII-Farben & Typografie).
+- Screen „Meine Themen“ mit anwählbaren Themen + Abo-Hinweis bei >1 Thema.
+- Screen „Mein Tagebuch“ inkl. Tagesnavigation, Emojis (Stimmung/Schlaf),
+  Quick Notes (mit Modal), Fake-Foto-Upload/-Sprachaufnahme und Liste „Letzte Einträge“.
+- Native-Funktionalitäten (Kamera, Audio, DatePicker) bewusst nur als UI-Platzhalter;
+  Integration folgt in späteren Teilprojekten.
+
