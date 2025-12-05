@@ -90,3 +90,22 @@ Füge z. B. unter „Teilprojekte“ folgenden Eintrag ein:
 - Native-Funktionalitäten (Kamera, Audio, DatePicker) bewusst nur als UI-Platzhalter;
   Integration folgt in späteren Teilprojekten.
 
+---
+
+### 1.4 – Freunde & Mein Profil (UX & lokales Profil)
+
+- Freunde-Tab UX verfeinert:
+  - Sektion „Einladungen“ (Platzhalter)
+  - Sektion „Deine Freunde“ mit Cards (Initialen, Status, aktivem Thema, …)
+  - Freund-einladen-Funktion als Platzhalter-Action im Header
+- Neuer Screen **„Mein Profil“**:
+  - Basisdaten: Name, Handy-Nummer, E-Mail (optional)
+  - UI-Einstellungen: Sprache (DE/EN), Notifications (dummys)
+  - App & Datenschutz: Datenschutz, Export, Konto löschen (Platzhalter)
+  - Aktionen: „Änderungen speichern“ + „Logout“
+- Profil-Daten werden lokal über `userStorage` & AsyncStorage verwaltet:
+  - Name wird auch unter `myaii_user_name` gespeichert
+  - Avatar-Tab begrüsst den Nutzer personalisiert
+- Alle Tabs (Avatar, Themen, Tagebuch, Freunde) nutzen die gemeinsame HeaderBar
+  und verlinken links konsistent auf den Profil-Screen.
+

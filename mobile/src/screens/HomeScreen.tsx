@@ -1,67 +1,171 @@
 // mobile/src/screens/HomeScreen.tsx
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../navigation/AppNavigator';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/types';
+import { getUserProfile } from '../services/userStorage';
+import { getRandomGreeting } from '../utils/greetings';
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-export default function HomeScreen() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+const MYAII_BLUE = '#D6ECFF';
 
-  const handleAvatarDemoPress = () => {
-    navigation.navigate('AvatarPlaceholder');
-  };
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const [name, setName] = useState<string | null>(null);
+  const [greeting, setGreeting] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadProfile = async () => {
+      try {
+        const profile = await getUserProfile();
+
+        if (!isMounted) return;
+
+        if (!profile || !profile.isOnboarded) {
+          // Fallback: Wenn kein Profil gefunden → zurück zum Login
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }],
+          });
+          return;
+        }
+
+        const firstName = profile.name.split(' ')[0];
+        setName(firstName);
+        setGreeting(getRandomGreeting());
+      } catch (error) {
+        console.error('Failed to load profile on HomeScreen', error);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadProfile();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigation]);
+
+  if (isLoading || !name) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
+
+  const year = new Date().getFullYear();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Willkommen bei MYAII2025b</Text>
-      <Text style={styles.subtitle}>
-        Dein persönlicher AI-Coach mit Avatar – aktuell noch im Aufbau.
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Text style={styles.logo}>MYAII</Text>
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <Button title="Avatar-Demo" onPress={handleAvatarDemoPress} />
-      </View>
+        <View style={styles.greetingSection}>
+          <Text style={styles.greetingTitle}>Hey {name},</Text>
+          <Text style={styles.greetingText}>{greeting}</Text>
+        </View>
 
-      <Text style={styles.infoText}>
-        Hinweis: In dieser Version ist nur eine einfache Demo-Navigation aktiv.
-        Die eigentliche Avatar-Integration folgt in einem späteren Teilprojekt.
-      </Text>
-    </View>
+        <View style={styles.avatarCard}>
+          <Text style={styles.avatarTitle}>Avatar kommt hier hin</Text>
+          <Text style={styles.avatarText}>
+            Hier wird später dein persönlicher AI-Co-Pilot (LiveAvatar via HeyGen + LiveKit)
+            angezeigt. In diesem Teilprojekt ist dies nur ein Platzhalter.
+          </Text>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© {year} MYAII</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingVertical: 32,
+    backgroundColor: MYAII_BLUE,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
   },
-  title: {
+  container: {
+    flex: 1,
+    backgroundColor: MYAII_BLUE,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 24,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  logo: {
     fontSize: 24,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: '700',
+    letterSpacing: 4,
   },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
+  greetingSection: {
+    marginBottom: 24,
   },
-  buttonContainer: {
+  greetingTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  greetingText: {
+    fontSize: 18,
+  },
+  avatarCard: {
     marginTop: 16,
-    width: '60%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
-  infoText: {
-    marginTop: 24,
+  avatarTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  avatarText: {
+    fontSize: 14,
+    opacity: 0.8,
+  },
+  footer: {
+    marginTop: 32,
+    alignItems: 'center',
+  },
+  footerText: {
     fontSize: 12,
-    textAlign: 'center',
     opacity: 0.7,
   },
 });
+
+export default HomeScreen;
