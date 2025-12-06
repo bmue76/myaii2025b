@@ -109,3 +109,18 @@ Füge z. B. unter „Teilprojekte“ folgenden Eintrag ein:
 - Alle Tabs (Avatar, Themen, Tagebuch, Freunde) nutzen die gemeinsame HeaderBar
   und verlinken links konsistent auf den Profil-Screen.
 
+---
+
+## 2. Update-Snippet für `docs/PROJECT_OVERVIEW.md`
+
+Füge in deiner Projektübersicht einen Eintrag für **1.5** hinzu (oder passe ihn an), z. B. in einer Tabelle der Teilprojekte:
+
+```md
+| Nr. | Teilprojekt                                      | Status       | Kurzbeschreibung                                                                                   |
+|-----|--------------------------------------------------|-------------|----------------------------------------------------------------------------------------------------|
+| 1.1 | Native Setup & iOS Dev-Client                    | abgeschlossen | Expo prebuild, Dev-Client, LiveKit-/WebRTC-Basis                                                  |
+| 1.2 | App-Shell (Splash, Login, Tabs)                  | abgeschlossen | Grundnavigation, lokales Profil, Login-Flow                                                       |
+| 1.3 | Tabs & Screens (Avatar, Themen, Tagebuch, Freunde) | abgeschlossen | Tab-Layout, Basis-Screens                                                                         |
+| 1.4 | Freunde & Mein Profil                            | abgeschlossen | Freunde-Tab verfeinert, Profil-Screen mit Logout                                                  |
+| 1.5 | Avatar-Demo (HeyGen + LiveKit)                   | abgeschlossen | Avatar-Tab mit HeyGen Streaming-API + LiveKit, Live-Stream und Text-zu-Sprache-Interaktion (PoC) |
+
