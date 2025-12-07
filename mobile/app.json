@@ -16,7 +16,7 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "bitcode": false,
-      "bundleIdentifier": "com.leadradar2025.myaii2025b"
+      "bundleIdentifier": "com.atlex.myaii2025b"
     },
     "android": {
       "adaptiveIcon": {
