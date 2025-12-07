@@ -124,3 +124,32 @@ Füge in deiner Projektübersicht einen Eintrag für **1.5** hinzu (oder passe i
 | 1.4 | Freunde & Mein Profil                            | abgeschlossen | Freunde-Tab verfeinert, Profil-Screen mit Logout                                                  |
 | 1.5 | Avatar-Demo (HeyGen + LiveKit)                   | abgeschlossen | Avatar-Tab mit HeyGen Streaming-API + LiveKit, Live-Stream und Text-zu-Sprache-Interaktion (PoC) |
 
+---
+
+### Nachtrag ab Teilprojekt 1.6 (Avatar-Hub & Chat-Trennung)
+
+Im Rahmen von **Teilprojekt 1.6** wurde der in 1.5 umgesetzte LiveAvatar-PoC (HeyGen + LiveKit), der zunächst auf dem Avatar-Tab integriert war, auf eine eigene **Chat-Seite** verschoben:
+
+- Neuer Screen: `mobile/app/(tabs)/chat.tsx`
+- Aufruf über den **zentralen Chat-Button** in der Tab-Bar.
+- Der Avatar-Tab dient seither ausschließlich als **Avatar-Hub** (Avatar-Auswahl, AI Twin) ohne Live-Stream.
+
+Die eigentliche Live-Interaktion mit dem KI-Avatar findet damit ab 1.6 auf der Chat-Seite statt, nicht mehr auf dem Avatar-Tab.
+
+---
+
+### 1.6 – Avatar-Tab als Avatar-Hub & Chat-Seite trennen
+
+- Avatar-Tab zu einem **Avatar-Hub** umgebaut (AI AVATAR):
+  - Dunkler Screen mit zwei großen Kacheln:
+    - „Wähle einen AI Avatar deiner Wahl“
+    - „Erstelle deinen AI Twin“
+  - Beide Kacheln aktuell mit Platzhalter-Actions (Alerts).
+- Neuer **Chat-Screen** (`/(tabs)/chat`) für den LiveAvatar-PoC:
+  - Header „AI JULIA“ mit Profil-Link.
+  - Vollbreiter Avatar-Stream oben (quadratisch, nur Avatar-Video).
+  - Chatverlauf mit Avatar-/User-Bubbles.
+  - iMessage-artige Eingabe-Bubble mit Send-Button, wächst bei mehrzeiligem Text.
+- Zentraler Chat-Button in der Tab-Bar öffnet nun konsequent die Chat-Seite, nicht mehr den Avatar-Tab.
+
+

@@ -13,7 +13,7 @@ export default function TabsLayout() {
     <Tabs
       initialRouteName="avatar"
       screenOptions={{
-        headerShown: false,
+        headerShown: false, // Header kommt aus deiner HeaderBar-Komponente in den Screens
         tabBarStyle: {
           backgroundColor: BLUE,
           borderTopWidth: 0,
@@ -48,6 +48,19 @@ export default function TabsLayout() {
           title: 'Avatar',
         }}
       />
+
+      {/*
+        NEU: Chat-Screen als Tab-Route, aber ohne eigenen Tab-Button.
+        - Datei: mobile/app/(tabs)/chat.tsx
+        - Wird NICHT in der CustomTabBar gerendert (wir rufen ihn nur über die Chat-Bubble auf).
+      */}
+      <Tabs.Screen
+        name="chat"
+        options={{
+          // kein Deeplink-Eintrag notwendig (kannst du bei Bedarf später ergänzen)
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
@@ -56,7 +69,7 @@ export default function TabsLayout() {
 function CustomTabBar({ state, descriptors, navigation }: any) {
   return (
     <View style={styles.tabBar}>
-      {/* Linker Block: Themen + Tagebuch */}
+      {/* Linker Block: Avatar + Themen */}
       <View style={styles.block}>
         {renderTab('avatar', 'person-circle-outline', 'Avatar', state, descriptors, navigation)}
         {renderTab('themen', 'flame-outline', 'Themen', state, descriptors, navigation)}
@@ -66,8 +79,8 @@ function CustomTabBar({ state, descriptors, navigation }: any) {
       <TouchableOpacity
         style={styles.chatButton}
         onPress={() => {
-          // vorerst Avatar als Ziel – später Chat/Speech-To-Text
-          navigation.navigate('avatar');
+          // NEU: Chat-Seite als Ziel
+          navigation.navigate('chat');
         }}
         activeOpacity={0.9}
       >
@@ -78,7 +91,7 @@ function CustomTabBar({ state, descriptors, navigation }: any) {
         />
       </TouchableOpacity>
 
-      {/* Rechter Block: Freunde + Avatar */}
+      {/* Rechter Block: Tagebuch + Freunde */}
       <View style={styles.block}>
         {renderTab('tagebuch', 'book-outline', 'Tagebuch', state, descriptors, navigation)}
         {renderTab('freunde', 'people-outline', 'Freunde', state, descriptors, navigation)}
