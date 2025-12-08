@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "MYAII2025b",
+    "name": "MYAII2025",
     "slug": "myaii2025b",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,8 +16,10 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "bitcode": false,
-      "bundleIdentifier": "com.atlex.myaii2025b"
+      "bundleIdentifier": "com.atlex.myaii",
+      "buildNumber": "1.0.3"
     },
+
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
