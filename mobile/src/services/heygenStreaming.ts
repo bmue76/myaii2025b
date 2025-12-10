@@ -1,5 +1,5 @@
-// mobile/src/services/heygenStreaming.ts
-// HeyGen Streaming API + LiveKit – Service-Layer für den Avatar-Tab
+// src/services/heygenStreaming.ts
+// HeyGen Streaming API + LiveKit – Service-Layer für den Avatar-Tab (NINA)
 
 const API_BASE_URL =
   process.env.EXPO_PUBLIC_HEYGEN_API_BASE_URL ?? 'https://api.heygen.com';
@@ -13,9 +13,12 @@ const API_KEY =
 
 const DEFAULT_AVATAR_ID =
   process.env.EXPO_PUBLIC_HEYGEN_DEFAULT_AVATAR_ID ?? '';
+
 const DEFAULT_QUALITY =
   process.env.EXPO_PUBLIC_HEYGEN_AVATAR_QUALITY ?? 'high';
-const KNOWLEDGE_BASE_ID = process.env.EXPO_PUBLIC_HEYGEN_KNOWLEDGE_BASE_ID;
+
+const DEFAULT_VOICE_ID =
+  process.env.EXPO_PUBLIC_HEYGEN_DEFAULT_VOICE_ID ?? '';
 
 export interface HeygenSession {
   sessionId: string;
@@ -31,11 +34,17 @@ export interface HeygenSession {
 export function isHeygenConfigured(): boolean {
   const configured = Boolean(API_KEY);
   if (!configured) {
-    console.warn('[HeyGen] API-Key nicht gefunden. process.env.EXPO_PUBLIC_HEYGEN_API_KEY =', process.env.EXPO_PUBLIC_HEYGEN_API_KEY
-      ? `(Länge: ${String(process.env.EXPO_PUBLIC_HEYGEN_API_KEY.length)})`
-      : 'undefined');
+    console.warn(
+      '[HeyGen] API-Key nicht gefunden. process.env.EXPO_PUBLIC_HEYGEN_API_KEY =',
+      process.env.EXPO_PUBLIC_HEYGEN_API_KEY
+        ? `(Länge: ${String(process.env.EXPO_PUBLIC_HEYGEN_API_KEY.length)})`
+        : 'undefined'
+    );
   } else {
-    console.log('[HeyGen] API-Key konfiguriert (Länge):', String(API_KEY?.length));
+    console.log(
+      '[HeyGen] API-Key konfiguriert (Länge):',
+      String(API_KEY?.length)
+    );
   }
   return configured;
 }
@@ -68,7 +77,9 @@ async function createSessionToken(): Promise<string> {
   if (!res.ok) {
     console.warn('[HeyGen] create_token failed', res.status, json);
     const msg =
-      json?.message || json?.error || `create_token fehlgeschlagen (${res.status})`;
+      json?.message ||
+      json?.error ||
+      `create_token fehlgeschlagen (${res.status})`;
     throw new Error(msg);
   }
 
@@ -99,15 +110,24 @@ async function createNewSession(
     video_encoding: 'H264',
   };
 
-  // je nach Account-Konfiguration wird avatar_name oder avatar_id verwendet
+  // NINA-Avatar: avatar_id laut Streaming-API
   if (avatarId) {
-    body.avatar_name = avatarId;
+    body.avatar_id = avatarId;
   }
 
-  if (KNOWLEDGE_BASE_ID) {
-    body.knowledge_base = {
-      id: KNOWLEDGE_BASE_ID,
+  // NINA-Stimme via Voice ID
+  if (DEFAULT_VOICE_ID) {
+    body.voice = {
+      voice_id: DEFAULT_VOICE_ID,
     };
+  }
+
+  // WICHTIG:
+  // Keine knowledge_base / knowledge_base_id mehr setzen,
+  // damit der JSON-Unmarshal-Fehler nicht mehr auftreten kann.
+
+  if (__DEV__) {
+    console.log('[HeyGen] streaming.new request body:', body);
   }
 
   const res = await fetch(`${API_BASE_URL}/v1/streaming.new`, {
